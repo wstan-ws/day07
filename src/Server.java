@@ -13,18 +13,19 @@ public class Server {
             port = Integer.parseInt(args[0]);
         }
 
-        ServerSocket server = new ServerSocket(port);
-        System.out.printf("Opening server on port %d\n", port);
+        try (ServerSocket server = new ServerSocket(port)) {
+            System.out.printf("Opening server on port %d\n", port);
 
-        ExecutorService threadPool = Executors.newFixedThreadPool(3);
+            ExecutorService threadPool = Executors.newFixedThreadPool(3);
 
-        while (true) {
-            System.out.println("Waiting for connection...");
-            Socket client = server.accept();
-            System.out.printf("Connected to client on port %d\n", port);
+            while (true) {
+                System.out.println("Waiting for connection...");
+                Socket client = server.accept();
+                System.out.printf("Connected to client on port %d\n", port);
 
-            Runnable serverHandler = new ServerHandler(client);
-            threadPool.submit(serverHandler);
+                Runnable serverHandler = new ServerHandler(client);
+                threadPool.submit(serverHandler);
+            }
         }
     }
 }

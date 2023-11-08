@@ -16,6 +16,7 @@ public class ServerHandler implements Runnable {
         this.socket = socket;
     }
 
+    @Override
     public void run() {
         try {
             start();
@@ -39,6 +40,12 @@ public class ServerHandler implements Runnable {
         while (isLooping) {
 
             String line = br.readLine();
+
+            if (line.contains("end")) {
+                isLooping = false;
+                continue;
+            }
+            
             String[] numAndOps = line.split(" ");
 
             double lastNum = Double.parseDouble(numAndOps[numAndOps.length - 2]);

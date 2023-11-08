@@ -34,17 +34,18 @@ public class ClientHandler {
             String line = cons.readLine("> ");
             line = line.toLowerCase();
 
-            if (line.equals("end")) {
-                isLooping = false;
-                break;
-            }
-
             line = result + " " + line;
             line = line.trim();
+            System.out.println(line);
 
             bw.write(line);
             bw.newLine();
             bw.flush();
+
+            if (line.equals("end") || line.contains("end")) {
+                isLooping = false;
+                continue;
+            }
 
             result = br.readLine();
             result = result.trim();
